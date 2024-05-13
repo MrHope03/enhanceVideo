@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./static/global.css">
+<title>Centered Video Player</title>
+</head>
+<body>
+	<h1> Video Enhancement </h1>
+	<div id="video-container">
+    <video id="videoPlayer" controls>
+        <source id="videoSource" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+	</div>
+	<div id="spinner" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+	<form id="form" action="/" enctype="multipart/form-data" method="post">
+		<h4 id="instruction"> Upload a talking face video you want to enhance. </h4>
+		<input type="file" id="uploadVideo" name="vid"/>
+		<button id="submitVideo" type="submit"> Upload Video </button>
+	</form>
+<script>
+	function handleFileUpload(event) {
+		const file = event.target.files[0];
+		if (file) {
+				const videoPlayer = document.getElementById('videoPlayer');
+				const videoSource = document.getElementById('videoSource');
+				const fileName = file.name;				
+				videoSource.src = URL.createObjectURL(file);
+				console.log(file)
+				videoPlayer.load();
+				document.getElementById('video-container').style.display = "block";
+				document.getElementById('instruction').style.display = "none";
+				document.getElementById()
+		}
+	}
+
+	function handleSubmit(event) {
+		document.getElementById('spinner').style.display = "block";
+		document.getElementById('form').style.display = "none";
+	}
+
+	document.getElementById('uploadVideo').addEventListener('change', handleFileUpload);
+	document.getElementById('submitVideo').addEventListener('click', handleSubmit);
+</script>
+</body>
+</html>
+	

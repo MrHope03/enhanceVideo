@@ -1,0 +1,17 @@
+dlib
+face-recognition
+flask
+imageio
+librosa
+moviepy
+numpy
+opencv-python
+pandas
+pillow
+scikit-image
+torch
+torchaudio
+torchvision
+tqdm
+motion-vector-extractor
+flask_ngrok
