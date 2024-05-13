@@ -133,12 +133,14 @@ def preprocess(vid_file):
     to_pil = ToPILImage()
 
     counter = 0
+    i = 0
     while vc.grab():
         tup = vc.retrieve()
 
         # Cropping frame
         frame, t, l, b, r = detect_and_resize_face(tup[1])
         if t == 0 and l == 0 and b == 0 and r == 0:   
+            i += 1
             counter += hop_length
             continue
 
@@ -169,6 +171,7 @@ def preprocess(vid_file):
         outimg = np.asarray(output)
         cv2.imwrite(os.path.join(outframes, f"frame-{i}.png"), cv2.cvtColor(outimg, cv2.COLOR_RGB2BGR))
         prev = img
+        i += 1
         counter += hop_length
 
     os.system(f"ffmpeg -framerate 30 -i {outframes}/frame-%d.png ./uploads/enhanced_video.mp4")
