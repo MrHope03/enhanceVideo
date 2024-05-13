@@ -13,7 +13,6 @@ warnings.filterwarnings("ignore")
 import shutil
 import face_recognition
 import cv2
-import yt_dlp as youtube_dl
 import subprocess
 import dlib
 from mvextractor.videocap import VideoCap
