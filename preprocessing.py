@@ -125,8 +125,9 @@ def preprocess(vid_file):
     hop_length = int(sr * frame_stride)
 
     # Return enhanced Video
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # You can change the codec as per your requirement
-    out = cv2.VideoWriter('./media/enhanced_video.mp4', fourcc, 30, (256, 256))
+    outframes = "./uploads/frames"
+    if os.path.exists(outframes) == False:
+        os.makedirs(outframes)
 
     to_tensor = ToTensor()
     to_pil = ToPILImage()
@@ -164,14 +165,13 @@ def preprocess(vid_file):
         output = model(img.unsqueeze(0), mfcc.unsqueeze(0), mv.unsqueeze(0), landmark.unsqueeze(0), prev.unsqueeze(0))
         output = output.squeeze(0)
         output = output.detach().cpu()
-        outimg = to_pil(output)
-        outimg = np.array(outimg)
-        # tup[1][t : b, l : r] = outimg
-        out.write(outimg)
-
+        output = to_pil(output)
+        outimg = np.asarray(output)
+        cv2.imwrite(os.path.join(outframes, f"frame-{i}.png"), cv2.cvtColor(outimg, cv2.COLOR_RGB2BGR))
         prev = img
         counter += hop_length
 
-    out.release()
+    os.system(f"ffmpeg -framerate 30 -i {outframes}/frame-%d.png ./uploads/enhanced_video.mp4")
+    shutil.rmtree(outframes)
     vc.release()
-    return './media/enhanced_video.mp4'
+    return './uploads/enhanced_video.mp4'
